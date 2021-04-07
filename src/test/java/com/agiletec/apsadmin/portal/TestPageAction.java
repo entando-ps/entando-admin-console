@@ -209,7 +209,7 @@ class TestPageAction extends ApsAdminBaseTestCase {
             action = (PageFinderAction) this.getAction();
             assertNotNull(action);
             assertNotNull(action.getPagesFound());
-            assertEquals(18, action.getPagesFound().size());
+            assertEquals(17, action.getPagesFound().size());
             // test unlikey events - null
             this.initAction("/do/Page", "search");
             result = this.executeAction();
@@ -217,7 +217,7 @@ class TestPageAction extends ApsAdminBaseTestCase {
             action = (PageFinderAction) this.getAction();
             assertNotNull(action);
             assertNotNull(action.getPagesFound());
-            assertEquals(18, action.getPagesFound().size());
+            assertEquals(17, action.getPagesFound().size());
         } catch (Throwable t) {
             throw t;
         }
