@@ -66,7 +66,7 @@ public class PageConfigAction extends AbstractPortalAction implements ServletRes
 			Widget widget = this.getCurrentPage().getWidgets()[this.getFrame()];// can be null
 			this.setWidget(widget);
 			if (widget != null) {
-				WidgetType widgetType = widget.getType();
+				WidgetType widgetType = this.getWidgetTypeManager().getWidgetType(widget.getTypeCode());
 				_logger.debug("pageCode: {}, frame: {}, widgetType: {}", this.getPageCode(), this.getFrame(), widgetType.getCode());
 				this.setWidgetAction(widgetType.getAction());
 				if (null == widgetType.getConfig() && null != this.getWidgetAction()) {
@@ -109,7 +109,7 @@ public class PageConfigAction extends AbstractPortalAction implements ServletRes
 				return "configureSpecialWidget";
 			}
 			Widget widget = new Widget();
-			widget.setType(widgetType);
+			widget.setTypeCode(widgetType.getCode());
 			this.getPageManager().joinWidget(this.getPageCode(), widget, this.getFrame());
 			this.addActivityStreamInfo(ApsAdminSystemConstants.ADD, true);
 		} catch (Exception e) {
@@ -146,7 +146,7 @@ public class PageConfigAction extends AbstractPortalAction implements ServletRes
 				return "configureSpecialWidget";
 			}
 			Widget widget = new Widget();
-			widget.setType(widgetType);
+			widget.setTypeCode(widgetType.getCode());
 			this.getPageManager().joinWidget(this.getPageCode(), widget, this.getFrame());
 			this.addActivityStreamInfo(ApsAdminSystemConstants.ADD, true);
 		} catch (Exception e) {
