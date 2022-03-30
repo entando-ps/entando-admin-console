@@ -58,6 +58,12 @@
 <wp:ifauthorized permission="superuser" var="isSuperUser" />
 <s:set var="appBuilderBaseURL" ><wp:info key="systemParam" paramName="appBuilderBaseURL" /></s:set>
 <ul class="list-group">
+    <li class="list-group-item secondary-nav-item-pf">
+        <a href='<c:out value="${appBuilderBaseURL}"/>dashboard' class="no-chevron">
+            <span class="fa" data-toggle="tooltip" title="<s:text name="menu.dashboard" />"><em class="dashboard"></em></span>
+            <span class="list-group-item-value"><s:text name="menu.dashboard" /></span>
+        </a>
+    </li>
     <wp:ifauthorized permission="managePages" var="isManagePage" />
     <c:if test="${isManagePage || isSuperUser}">
         <!-- Page Designer -->
@@ -215,12 +221,15 @@
     </c:if>
 
     <!-- ECR -->
-    <li class="list-group-item secondary-nav-item-pf">
-        <a href='<c:out value="${appBuilderBaseURL}"/>component-repository' class="no-chevron">
-            <span class="fa fa-cart-plus" data-toggle="tooltip" title="<s:text name="menu.ECR" />"></span>
-            <span class="list-group-item-value"><s:text name="menu.ECR" /></span>
-        </a>
-    </li>
+    <wp:ifauthorized permission="enterECR" var="isEnterECR" />
+    <c:if test="${isSuperUser || isEnterECR}">
+        <li class="list-group-item secondary-nav-item-pf">
+            <a href='<c:out value="${appBuilderBaseURL}"/>component-repository' class="no-chevron">
+                <span class="fa fa-cart-plus" data-toggle="tooltip" title="<s:text name="menu.ECR" />"></span>
+                <span class="list-group-item-value"><s:text name="menu.ECR" /></span>
+            </a>
+        </li>
+    </c:if>
 
 </ul>
 
