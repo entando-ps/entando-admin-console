@@ -1,6 +1,7 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="wpsa" uri="/apsadmin-core" %>
 <%@ taglib prefix="wpsf" uri="/apsadmin-form" %>
+<%@ taglib prefix="wp" uri="/aps-core" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
@@ -61,7 +62,7 @@
     </p>
     <s:form action="save" namespace="/do/Portal/WidgetType" cssClass="form-horizontal">
 
-        <wpsa:ifauthorized permission="superuser"><s:set var="isSuperuserVar" value="%{true}" /></wpsa:ifauthorized>
+        <wp:ifauthorized permission="superuser"><s:set var="isSuperuserVar" value="%{true}" /></wp:ifauthorized>
 
         <s:if test="hasActionErrors()">
             <div class="alert alert-danger alert-dismissable">
