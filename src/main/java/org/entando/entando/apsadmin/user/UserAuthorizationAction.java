@@ -25,7 +25,6 @@ import com.agiletec.aps.system.services.user.UserDetails;
 import com.agiletec.apsadmin.system.BaseAction;
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.lang3.StringUtils;
-import org.entando.entando.ent.exception.EntException;
 import org.entando.entando.ent.util.EntLogging.EntLogger;
 import org.entando.entando.ent.util.EntLogging.EntLogFactory;
 
@@ -40,9 +39,7 @@ public class UserAuthorizationAction extends BaseAction {
 	public static final String CURRENT_FORM_USER_AUTHS_PARAM_NAME = "currentUserAuthoritiesOnForm";
 	private static final String USER_LIST = "userList";
 
-
 	private static final EntLogger logger = EntLogFactory.getSanitizedLogger(UserAuthorizationAction.class);
-
 
 	private String username;
 
@@ -54,15 +51,14 @@ public class UserAuthorizationAction extends BaseAction {
 	private IUserManager userManager;
 	private IRoleManager roleManager;
 	private IGroupManager groupManager;
-
-
+    
 	public String edit() {
 		try {
 			String result = this.checkUser();
 			if (null != result) return result;
 			List<Authorization> authorizations = super.getAuthorizationManager().getUserAuthorizations(this.getUsername());
 			UserAuthsFormBean userAuthsFormBean = new UserAuthsFormBean(this.getUsername(), authorizations);
-			this.getRequest().getSession().setAttribute(CURRENT_FORM_USER_AUTHS_PARAM_NAME,  userAuthsFormBean);
+            this.setUserAuthsFormBean(userAuthsFormBean);
 		} catch (Throwable t) {
 			logger.error("error in edit", t);
 			return FAILURE;
@@ -71,11 +67,7 @@ public class UserAuthorizationAction extends BaseAction {
 	}
 	
 	private String checkUser() throws Throwable {
-		if (!this.existsUser()) {
-			this.addActionError(this.getText("error.user.notExist"));
-			return USER_LIST;
-		}
-		if (SystemConstants.ADMIN_USER_NAME.equals(this.getUsername())) {
+        if (SystemConstants.ADMIN_USER_NAME.equals(this.getUsername())) {
 			this.addActionError(this.getText("error.user.cannotModifyAdminUser"));
 			return USER_LIST;
 		}
@@ -107,11 +99,14 @@ public class UserAuthorizationAction extends BaseAction {
 				return INPUT;
 			}
 			Authorization authorization = new Authorization(group, role);
-			boolean result = this.getUserAuthsFormBean().addAuthorization(authorization);
+            UserAuthsFormBean authsBean = this.getUserAuthsFormBean();
+			boolean result = authsBean.addAuthorization(authorization);
 			if (!result) {
 				this.addActionError(this.getText("error.userAuthorization.alreadyExists", new String[]{groupName, roleName}));
 				return INPUT;
-			}
+			} else {
+                this.setUserAuthsFormBean(authsBean);
+            }
 		} catch (Throwable t) {
 			logger.error("error adding user authorization", t);
 			return FAILURE;
@@ -125,7 +120,11 @@ public class UserAuthorizationAction extends BaseAction {
 				return USER_LIST;
 			}
 			if (null == this.getIndex()) return INPUT;
-			boolean result = this.getUserAuthsFormBean().removeAuthorization(this.getIndex());
+            UserAuthsFormBean authsBean = this.getUserAuthsFormBean();
+			boolean result = authsBean.removeAuthorization(this.getIndex());
+            if (result) {
+                this.setUserAuthsFormBean(authsBean);
+            }
 			if (!result) return INPUT;
 		} catch (Throwable t) {
 			logger.error("error removing user authorization", t);
@@ -156,15 +155,6 @@ public class UserAuthorizationAction extends BaseAction {
 		return currentUser.getUsername().equals(this.getUsername());
 	}
 	
-	/**
-	 * Verifica l'esistenza dell'utente.
-	 * @return true in caso positivo, false nel caso l'utente non esista.
-	 * @throws EntException In caso di errore.
-	 */
-	protected boolean existsUser() throws EntException {
-		return (username != null) && (userManager.getUser(username) != null);
-	}
-	
 	private boolean checkAuthorizationSessionBean() {
 		UserAuthsFormBean authsBean = this.getUserAuthsFormBean();
 		if (null == username || null == authsBean || !username.equals(authsBean.getUsername())) {
@@ -176,6 +166,10 @@ public class UserAuthorizationAction extends BaseAction {
 	
 	public UserAuthsFormBean getUserAuthsFormBean() {
 		return (UserAuthsFormBean) this.getRequest().getSession().getAttribute(CURRENT_FORM_USER_AUTHS_PARAM_NAME);
+	}
+	
+	protected void setUserAuthsFormBean(UserAuthsFormBean userAuthsFormBean) {
+		this.getRequest().getSession().setAttribute(CURRENT_FORM_USER_AUTHS_PARAM_NAME, userAuthsFormBean);
 	}
 	
 	public List<Group> getGroups() {
