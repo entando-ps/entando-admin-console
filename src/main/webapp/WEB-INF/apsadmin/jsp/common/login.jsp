@@ -12,10 +12,10 @@
     <title>Entando - Log in</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta charset="utf-8"/>
-    <link rel="shortcut icon" href="<wp:ResourceURL ignoreTenant="true" />administration/img/favicon-entando.png">
+    <link rel="shortcut icon" href="<wp:resourceURL ignoreTenant="true" />administration/img/favicon-entando.png">
 
     <!--CSS inclusions-->
-    <link rel="stylesheet" href="<wp:ResourceURL ignoreTenant="true" />administration/css/login.css" />
+    <link rel="stylesheet" href="<wp:resourceURL ignoreTenant="true" />administration/css/login.css" />
     <!--JS inclusions-->
 </head>
 
