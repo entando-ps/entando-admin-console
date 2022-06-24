@@ -16,7 +16,7 @@
 		<title>Entando - Error</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta charset="utf-8" />
-		<link rel="stylesheet" href="<wp:resourceURL />administration/bootstrap/css/bootstrap.min.css" media="screen" />
+		<link rel="stylesheet" href="<wp:ResourceURL ignoreTenant="true" />administration/bootstrap/css/bootstrap.min.css" media="screen" />
 	</head>
 	<body>
 		<div class="container">
