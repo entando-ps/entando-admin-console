@@ -9,7 +9,6 @@
 		Object exceptionType = request.getAttribute("javax.servlet.error.exception_type");
 		Object message = request.getAttribute("javax.servlet.error.message");
 %>
-<wp:contentNegotiation mimeType="text/html" charset="utf-8"/>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
