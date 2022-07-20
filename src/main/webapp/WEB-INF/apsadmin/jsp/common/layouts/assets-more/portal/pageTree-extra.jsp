@@ -30,12 +30,10 @@
                     .addClass('fa-angle-down');
         });
         $("#collapseAll").click(function () {
-            $("#pageTree .treeRow").addClass("childrenNodes");
-            $("#homepage").removeClass("childrenNodes");
-            $(".childrenNodes").addClass("hidden collapsed");
-            $('#pageTree .icon.fa-angle-down').removeClass('fa-angle-down').addClass('fa-angle-right');
+            $('#pageTree .treeRow:not(:first-child)').addClass('hidden');
+            $(".childrenNodes").addClass("collapsed");
+            $('#categoryTree .icon.fa-angle-down').removeClass('fa-angle-down').addClass('fa-angle-right');
         });
-
         $(".treeRow ").on("click", function (event) {
             $(".treeRow").removeClass("active");
             $(".moveButtons").addClass("hidden");
