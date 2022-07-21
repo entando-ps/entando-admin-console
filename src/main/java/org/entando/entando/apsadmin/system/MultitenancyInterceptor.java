@@ -29,10 +29,9 @@ public class MultitenancyInterceptor extends AbstractInterceptor {
     @Override
     public String intercept(ActionInvocation invocation) throws Exception {
         HttpServletRequest request = ServletActionContext.getRequest();
-        String tenantCode = request.getServerName().split("\\.")[0];
-        ITenantManager tenantManager = ApsWebApplicationUtils.getBean(ITenantManager.class, request);
+        String tenantCode = ApsWebApplicationUtils.extractCurrentTenantCode(request);
         EntThreadLocal.init();
-        if (tenantManager.exists(tenantCode)) {
+        if (null != tenantCode) {
             EntThreadLocal.set(ITenantManager.THREAD_LOCAL_TENANT_CODE, tenantCode);
         } else {
             EntThreadLocal.remove(ITenantManager.THREAD_LOCAL_TENANT_CODE);
