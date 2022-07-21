@@ -13,6 +13,7 @@
  */
 package org.entando.entando.apsadmin.system;
 
+import com.agiletec.aps.system.EntThreadLocal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,7 @@ import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 import java.lang.reflect.InvocationTargetException;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.entando.entando.aps.system.services.tenant.ITenantManager;
 
 /**
  * @author E.Santoboni - S.Puddu
@@ -62,6 +64,13 @@ public class ActionLoggerInterceptor extends AbstractInterceptor {
                 asiList = action.getActivityStreamInfos();
             }
             this.includeActionProperties(actionRecord, actionObject);
+            HttpServletRequest request = ServletActionContext.getRequest();
+            String tenantCode = ApsWebApplicationUtils.extractCurrentTenantCode(request);
+            if (null != tenantCode) {
+                EntThreadLocal.set(ITenantManager.THREAD_LOCAL_TENANT_CODE, tenantCode);
+            } else {
+                EntThreadLocal.remove(ITenantManager.THREAD_LOCAL_TENANT_CODE);
+            }
             if (null == asiList || asiList.isEmpty()) {
                 this.getActionLoggerManager().addActionRecord(actionRecord);
             } else {
@@ -71,6 +80,7 @@ public class ActionLoggerInterceptor extends AbstractInterceptor {
                     this.getActionLoggerManager().addActionRecord(clone);
                 }
             }
+            EntThreadLocal.remove(ITenantManager.THREAD_LOCAL_TENANT_CODE);
         } catch (Throwable t) {
             _logger.error("error in intercept", t);
         }
