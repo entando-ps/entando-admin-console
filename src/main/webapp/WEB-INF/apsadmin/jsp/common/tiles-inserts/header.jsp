@@ -3,6 +3,7 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions" %>
 
+<%--
 <script>
     var Entando = Entando || {};
     Entando.backoffice = Entando.backoffice || {};
@@ -14,9 +15,10 @@
     Entando.backoffice.stream.comments.addUrl = '<s:url action="addComment" namespace="/do/ActivityStream" />';
     Entando.backoffice.stream.comments.deleteUrl = '<s:url action="removeComment" namespace="/do/ActivityStream" />';
 </script>
+--%>
 <script>
     jQuery(function () {
-        $('#activity-stream [data-toggle="tooltip"]').tooltip({trigger: 'hover'});
+        <%-- $('#activity-stream [data-toggle="tooltip"]').tooltip({trigger: 'hover'}); --%>
 
         // trigger updateLocale if language is changed
         $('#languageDropdownComponent a').click(function(e) {
@@ -71,6 +73,8 @@
                 <s:text name="note.goToPortal" />
             </a>
         </li>
+        
+        <%--
         <s:if test="#appBuilderIntegrationEnabled == 'true'">
             <li></li>
         </s:if>
@@ -81,6 +85,10 @@
                 </a>
             </li>
         </s:else>
+        --%>
+        <li></li>
+        
+        
         <li id="infoHeader" class="dropdown">
             <a class="dropdown-toggle nav-item-iconic" id="infoDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 <span title="Info" class="fa pficon-info"></span>

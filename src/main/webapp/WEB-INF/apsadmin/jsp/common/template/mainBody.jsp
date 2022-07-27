@@ -14,10 +14,11 @@
         <div id="stream-updates-alert" aria-live="polite" class="hide btn-primary btn-links">
             <s:text name="activity.stream.note.show.updates" /> (<span class="n"></span>)
         </div>
+        <%--
         <ul class="list-unstyled" id="activity-stream">
             <s:include value="/WEB-INF/apsadmin/jsp/common/activity-stream/inc/stream.jsp" />
         </ul>
-
+        --%>
         <div class="col-xs-12 text-center">
             <button class="btn btn-primary btn-submit-spacer btn-sm" data-entando="load-more-button" data-loading-text="<s:text name="activity.stream.note.loading" />&hellip;"><s:text name="activity.stream.note.loadMore" /></button>
         </div>
