@@ -13,8 +13,6 @@
  */
 package org.entando.entando.apsadmin.common;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.entando.entando.aps.system.services.actionlog.ActionLoggerTestHelper;
 import org.entando.entando.aps.system.services.actionlog.IActionLogManager;
 
@@ -22,10 +20,8 @@ import com.agiletec.aps.system.SystemConstants;
 import com.agiletec.aps.system.services.lang.ILangManager;
 import com.agiletec.aps.system.services.page.IPageManager;
 import com.agiletec.apsadmin.ApsAdminBaseTestCase;
-import com.opensymphony.xwork2.Action;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 /**
  * @author E.Santoboni
@@ -105,6 +101,7 @@ class TestActivityStreamAction extends ApsAdminBaseTestCase {
 		}
 	}
      */
+    /*
     @Test
     void testCallAction() throws Throwable {
         this.initActivityStreamAction("/do/ActivityStream", "update", "2012-12-12 12:12:12|121");
@@ -122,7 +119,7 @@ class TestActivityStreamAction extends ApsAdminBaseTestCase {
         this.initAction(namespace, name);
         this.addParameter("timestamp", timestamp);
     }
-
+    */
     @BeforeEach
     private void init() {
         this._actionLoggerManager = (IActionLogManager) this.getService(SystemConstants.ACTION_LOGGER_MANAGER);
