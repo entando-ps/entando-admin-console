@@ -45,7 +45,7 @@ import com.agiletec.apsadmin.system.ApsAdminSystemConstants;
 public class PageConfigAction extends AbstractPortalAction implements ServletResponseAware {
 
 	private static final EntLogger _logger = EntLogFactory.getSanitizedLogger(PageConfigAction.class);
-    
+
     public static final String DEFAULT_CONFIG_ACTION_NAME = "configSimpleParameter";
 
 	public String configure() {
@@ -59,105 +59,105 @@ public class PageConfigAction extends AbstractPortalAction implements ServletRes
 		return SUCCESS;
 	}
 
-    public String editFrame() {
-        try {
-            String result = this.checkBaseParams();
-            if (null != result) {
-                return result;
-            }
-            Widget widget = this.getCurrentPage().getWidgets()[this.getFrame()];// can be null
-            this.setWidget(widget);
-            if (widget != null) {
-                WidgetType widgetType = widget.getType();
-                _logger.debug("pageCode: {}, frame: {}, widgetType: {}", this.getPageCode(), this.getFrame(), widgetType.getCode());
-                this.setWidgetAction(this.getRightActionName(widgetType));
+	public String editFrame() {
+		try {
+			String result = this.checkBaseParams();
+			if (null != result) {
+				return result;
+			}
+			Widget widget = this.getCurrentPage().getWidgets()[this.getFrame()];// can be null
+			this.setWidget(widget);
+			if (widget != null) {
+				WidgetType widgetType = this.getWidgetTypeManager().getWidgetType(widget.getTypeCode());
+				_logger.debug("pageCode: {}, frame: {}, widgetType: {}", this.getPageCode(), this.getFrame(), widgetType.getCode());
+				this.setWidgetAction(this.getRightActionName(widgetType));
                 if (null != this.getWidgetAction()) {
-                    return "configureSpecialWidget";
-                }
-            } else {
-                _logger.debug("pageCode: {} frame: {}, empty widhet to config", this.getPageCode(), this.getFrame());
-            }
-        } catch (Exception e) {
-            _logger.error("error in edit frame", e);
-            return FAILURE;
-        }
-        return SUCCESS;
-    }
+					return "configureSpecialWidget";
+				}
+			} else {
+				_logger.debug("pageCode: {} frame: {}, empty widhet to config", this.getPageCode(), this.getFrame());
+			}
+		} catch (Exception e) {
+			_logger.error("error in edit frame", e);
+			return FAILURE;
+		}
+		return SUCCESS;
+	}
 
 	@Deprecated
 	public String joinShowlet() {
 		return this.joinWidget();
 	}
 
-    public String joinWidget() {
-        try {
-            String result = this.checkBaseParams();
-            if (null != result) {
-                return result;
-            }
-            if (null != this.getWidgetTypeCode() && this.getWidgetTypeCode().length() == 0) {
-                this.addActionError(this.getText("error.page.widgetTypeCodeUnknown"));
-                return INPUT;
-            }
-            _logger.debug("code={}, pageCode={}, frame={}" + this.getWidgetTypeCode(), this.getPageCode(), this.getFrame());
-            WidgetType widgetType = this.getShowletType(this.getWidgetTypeCode());
-            if (null == widgetType) {
-                this.addActionError(this.getText("error.page.widgetTypeCodeUnknown"));
-                return INPUT;
-            }
+	public String joinWidget() {
+		try {
+			String result = this.checkBaseParams();
+			if (null != result) {
+				return result;
+			}
+			if (null != this.getWidgetTypeCode() && this.getWidgetTypeCode().length() == 0) {
+				this.addActionError(this.getText("error.page.widgetTypeCodeUnknown"));
+				return INPUT;
+			}
+			_logger.debug("code={}, pageCode={}, frame={}" + this.getWidgetTypeCode(), this.getPageCode(), this.getFrame());
+			WidgetType widgetType = this.getShowletType(this.getWidgetTypeCode());
+			if (null == widgetType) {
+				this.addActionError(this.getText("error.page.widgetTypeCodeUnknown"));
+				return INPUT;
+			}
             this.setWidgetAction(this.getRightActionName(widgetType));
             if (null != this.getWidgetAction()) {
-                //continue to widget configuration
-                return "configureSpecialWidget";
-            }
-            Widget widget = new Widget();
-            widget.setType(widgetType);
-            this.getPageManager().joinWidget(this.getPageCode(), widget, this.getFrame());
-            this.addActivityStreamInfo(ApsAdminSystemConstants.ADD, true);
-        } catch (Exception e) {
-            _logger.error("error in joinWidget", e);
-            return FAILURE;
-        }
-        return SUCCESS;
-    }
+				//continue to widget configuration
+				return "configureSpecialWidget";
+			}
+			Widget widget = new Widget();
+			widget.setTypeCode(widgetType.getCode());
+			this.getPageManager().joinWidget(this.getPageCode(), widget, this.getFrame());
+			this.addActivityStreamInfo(ApsAdminSystemConstants.ADD, true);
+		} catch (Exception e) {
+			_logger.error("error in joinWidget", e);
+			return FAILURE;
+		}
+		return SUCCESS;
+	}
 
-    public String joinWidgetJson() {
-        try {
-            String result = this.checkBaseParams();
-            if (null != result) {
-                return result;
-            }
-            IPage page = this.getPage(this.getPageCode());
-            if (null != page.getWidgets()[this.getFrame()]) {
-                this.addActionError(this.getText("error.page.join.frameNotEmpty"));
-                return "pageTree";
-            }
-            if (null != this.getWidgetTypeCode() && this.getWidgetTypeCode().length() == 0) {
-                this.addActionError(this.getText("error.page.widgetTypeCodeUnknown"));
-                return INPUT;
-            }
-            _logger.debug("code={}, pageCode={}, frame={}" + this.getWidgetTypeCode(), this.getPageCode(), this.getFrame());
-            WidgetType widgetType = this.getShowletType(this.getWidgetTypeCode());
-            if (null == widgetType) {
-                this.addActionError(this.getText("error.page.widgetTypeCodeUnknown"));
-                return INPUT;
-            }
+	public String joinWidgetJson() {
+		try {
+			String result = this.checkBaseParams();
+			if (null != result) {
+				return result;
+			}
+			IPage page = this.getPage(this.getPageCode());
+			if (null != page.getWidgets()[this.getFrame()]) {
+				this.addActionError(this.getText("error.page.join.frameNotEmpty"));
+				return "pageTree";
+			}
+			if (null != this.getWidgetTypeCode() && this.getWidgetTypeCode().length() == 0) {
+				this.addActionError(this.getText("error.page.widgetTypeCodeUnknown"));
+				return INPUT;
+			}
+			_logger.debug("code={}, pageCode={}, frame={}" + this.getWidgetTypeCode(), this.getPageCode(), this.getFrame());
+			WidgetType widgetType = this.getShowletType(this.getWidgetTypeCode());
+			if (null == widgetType) {
+				this.addActionError(this.getText("error.page.widgetTypeCodeUnknown"));
+				return INPUT;
+			}
             this.setWidgetAction(this.getRightActionName(widgetType));
             if (null != this.getWidgetAction()) {
-                //continue to widget configuration
-                return "configureSpecialWidget";
-            }
-            Widget widget = new Widget();
-            widget.setType(widgetType);
-            this.getPageManager().joinWidget(this.getPageCode(), widget, this.getFrame());
-            this.addActivityStreamInfo(ApsAdminSystemConstants.ADD, true);
-        } catch (Exception e) {
-            _logger.error("error in joinWidget", e);
-            return FAILURE;
-        }
-        return SUCCESS;
-    }
-    
+				//continue to widget configuration
+				return "configureSpecialWidget";
+			}
+			Widget widget = new Widget();
+			widget.setTypeCode(widgetType.getCode());
+			this.getPageManager().joinWidget(this.getPageCode(), widget, this.getFrame());
+			this.addActivityStreamInfo(ApsAdminSystemConstants.ADD, true);
+		} catch (Exception e) {
+			_logger.error("error in joinWidget", e);
+			return FAILURE;
+		}
+		return SUCCESS;
+	}
+
     private String getRightActionName(WidgetType widgetType) {
         if (null == widgetType.getTypeParameters() || widgetType.getTypeParameters().isEmpty() ) {
             return null;
