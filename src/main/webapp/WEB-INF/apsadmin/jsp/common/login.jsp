@@ -2,7 +2,6 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="wp" uri="/aps-core" %>
-<%@ taglib prefix="wpsf" uri="/apsadmin-form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
@@ -21,19 +20,16 @@
 
     <body>
         <div class="LoginPage">
-            <form class="LoginPage__form" action="doLogin" id="form-login">
+            <form class="LoginPage__form" action="doLogin" id="form-login" method="post">
                 <div class="LoginPage__brand">
                     <div class="LoginPage__logo"></div>
                     <div class="LoginPage__description"></div>
                 </div>
                 <div class="LoginPage__formGroup">
-                    
                     <s:if test="#session.currentUser != null && #session.currentUser.username != 'guest'">
-                        
                         <h2>
                             <s:text name="note.userbar.welcome"/>&#32;<s:property value="#session.currentUser"/>&nbsp;!
                         </h2>
-
                         <wp:ifauthorized permission="enterBackend" var="checkEnterBackend"/>
                         <c:choose>
                             <c:when test="${checkEnterBackend}">
@@ -51,7 +47,6 @@
                                     </a>
                                 </div>
                             </c:when>
-
                             <c:otherwise>
                                 <div>
                                     <strong><s:text name="note.login.notAllowed"/></strong><br/>
@@ -63,11 +58,8 @@
                                 </div>
                             </c:otherwise>
                         </c:choose>
-
                     </s:if>
                     <s:else>
-
-
                         <div class="LoginPage__inputGroup">
                             <label class="LoginPage__label"><s:text name="label.username"/></label>
                             <input type="text" name="username" tabindex="1" class="LoginPage__input" id="username" placeholder="Username" />
