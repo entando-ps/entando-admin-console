@@ -27,11 +27,10 @@
 </div>
 <br>
 
-
 <div class="text-center">
     <s:form action="delete">
-
-        <p class="sr-only"><wpsf:hidden name="selectedNode"/></p>
+        
+        <p class="sr-only"><wpsf:hidden name="key"/></p>
 
     <i class="fa fa-exclamation esclamation-big" aria-hidden="true"></i>
     <p class="esclamation-underline"><s:text name="label.delete"/></p>
